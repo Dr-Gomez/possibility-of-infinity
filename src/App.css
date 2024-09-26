@@ -1,0 +1,49 @@
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+header {
+  font-size: 5rem;
+  position: absolute;
+  left: 50%;
+  top: 50px;
+  transform: translateX(-50%);
+}
+
+#chance {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 20rem;
+  height: 20rem;
+  padding: 1rem;
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  transform: translateX(-50%);
+}
+
+#selector {
+  width: calc(80% - 7rem);
+  align-self: center;
+}
+
+input {
+  width: 45%;
+  height: 1.5rem;
+}
+
+hr {
+  width: 70%;
+}
+
+#simplifier {
+  height: 3.5rem;
+  width: 7rem;
+  align-self: center;
+  margin-left: 5px;
+}
