@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import "./App.css";
 
 function simplify(
@@ -29,12 +29,42 @@ function simplify(
 }
 
 function ChanceSelector(): ReactElement {
+  const [nominator, setNominator] = useState<number>(0);
+  const [denominator, setDenominator] = useState<number>(1);
+
+  function handleNominator(e: React.ChangeEvent<HTMLInputElement>) {
+    const numAsString: string = e.target.value;
+    if (numAsString) {
+      setNominator(parseInt(e.target.value));
+    } else if (numAsString == "") {
+      setNominator(0);
+    }
+  }
+
+  function handleDenominator(e: React.ChangeEvent<HTMLInputElement>) {
+    const numAsString: string = e.target.value;
+    if (
+      numAsString.length == 2 &&
+      numAsString[0] == "1" &&
+      numAsString != "" &&
+      numAsString[1] != "1"
+    ) {
+      setDenominator(parseInt(numAsString[1]));
+    } else if (numAsString) {
+      setDenominator(parseInt(e.target.value));
+    } else if (numAsString == "") {
+      setDenominator(1);
+    }
+  }
+
+  useEffect(() => {}, []);
+
   return (
     <span id="chance">
       <div id="selector">
-        <input></input>
+        <input value={nominator} onChange={handleNominator}></input>
         <hr />
-        <input></input>
+        <input value={denominator} onChange={handleDenominator}></input>
       </div>
       <button id="simplifier">Select Chance</button>
     </span>

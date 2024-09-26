@@ -12,6 +12,7 @@ header {
   left: 50%;
   top: 50px;
   transform: translateX(-50%);
+  white-space: nowrap;
 }
 
 #chance {
@@ -35,6 +36,8 @@ header {
 input {
   width: 45%;
   height: 1.5rem;
+  font-size: 0.9rem;
+  text-align: center;
 }
 
 hr {
