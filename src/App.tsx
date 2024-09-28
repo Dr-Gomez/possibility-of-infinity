@@ -1,5 +1,17 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useRef, useState } from "react";
 import "./App.css";
+
+function unlimitedVoid(): void {
+  for (let n = 0; n < Infinity; n += 1) {
+    console.log(Infinity + `${n}`);
+  }
+}
+
+function limitedUnlimitedVoid(n: number): void {
+  for (let i = 0; i < n; i++) {
+    unlimitedVoid();
+  }
+}
 
 function simplify(
   top: number,
@@ -17,7 +29,7 @@ function simplify(
       remainder = num2 % num1;
     }
 
-    if (remainder == 0) {
+    if (remainder === 0) {
       return num2;
     } else {
       return gcd(small, remainder);
@@ -25,53 +37,102 @@ function simplify(
   }
 
   const divisor: number = gcd(top, bottom);
-  return { top: top / divisor, bottom: bottom / divisor };
+
+  if (top < bottom) {
+    return { bottom: bottom / divisor, top: top / divisor };
+  } else {
+    return { bottom: top / divisor, top: bottom / divisor };
+  }
 }
 
 function ChanceSelector(): ReactElement {
-  const [nominator, setNominator] = useState<number>(0);
-  const [denominator, setDenominator] = useState<number>(1);
+  const [nominator, setNominator] = useState<number | string>("");
+  const [denominator, setDenominator] = useState<number | string>("");
 
-  function handleNominator(e: React.ChangeEvent<HTMLInputElement>) {
-    const numAsString: string = e.target.value;
-    if (numAsString) {
-      setNominator(parseInt(e.target.value));
-    } else if (numAsString == "") {
-      setNominator(0);
+  const selectorRef = useRef<HTMLDivElement>(null);
+
+  function handleNominatorChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
+    if (!isNaN(Number(value)) || value === "") {
+      setNominator(value);
+    }
+
+    console.log(nominator);
+  }
+
+  function handleDenominatorChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
+    if (!isNaN(Number(value)) || value === "") {
+      setDenominator(value);
     }
   }
 
-  function handleDenominator(e: React.ChangeEvent<HTMLInputElement>) {
-    const numAsString: string = e.target.value;
-    if (
-      numAsString.length == 2 &&
-      numAsString[0] == "1" &&
-      numAsString != "" &&
-      numAsString[1] != "1"
-    ) {
-      setDenominator(parseInt(numAsString[1]));
-    } else if (numAsString) {
-      setDenominator(parseInt(e.target.value));
-    } else if (numAsString == "") {
-      setDenominator(1);
-    }
+  function addSpinAnimation(element: HTMLElement) {
+    const keyframes = [
+      { transform: "rotate(0deg)" },
+      { transform: "rotate(720deg)" },
+    ];
+
+    const options: KeyframeAnimationOptions = {
+      duration: 1500,
+      iterations: 1,
+      easing: "ease-in-out",
+    };
+
+    const animation = element.animate(keyframes, options);
+
+    animation.onfinish = () => {
+      element.style.transform = "";
+      animation.cancel();
+    };
   }
 
-  useEffect(() => {}, []);
+  function swapFraction() {
+    const currentNominator = parseInt(nominator as string);
+    const currentDenominator = parseInt(denominator as string);
+
+    function swap() {
+      setNominator(currentDenominator);
+      setDenominator(currentNominator);
+    }
+
+    if (currentNominator > currentDenominator) {
+      if (selectorRef.current) {
+        addSpinAnimation(selectorRef.current);
+        setTimeout(swap, 720);
+      }
+    }
+  }
 
   return (
     <span id="chance">
-      <div id="selector">
-        <input value={nominator} onChange={handleNominator}></input>
+      <div id="selector" ref={selectorRef}>
+        <input
+          id="nominator"
+          placeholder="0"
+          value={nominator}
+          onChange={handleNominatorChange}
+        />
         <hr />
-        <input value={denominator} onChange={handleDenominator}></input>
+        <input
+          id="denominator"
+          placeholder="1"
+          value={denominator}
+          onChange={handleDenominatorChange}
+        />
       </div>
-      <button id="simplifier">Select Chance</button>
+      <button id="simplifier" onClick={swapFraction}>
+        Select Chance
+      </button>
     </span>
   );
 }
 
 function App() {
+  const simple = simplify(1400, 140);
+
+  console.log(simple.top, simple.bottom);
+
   return (
     <>
       <header>Possibility of Infinity</header>
