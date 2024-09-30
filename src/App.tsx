@@ -56,8 +56,6 @@ function ChanceSelector(): ReactElement {
     if (!isNaN(Number(value)) || value === "") {
       setNominator(value);
     }
-
-    console.log(nominator);
   }
 
   function handleDenominatorChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -88,8 +86,10 @@ function ChanceSelector(): ReactElement {
   }
 
   function swapFraction() {
-    const currentNominator = parseInt(nominator as string);
-    const currentDenominator = parseInt(denominator as string);
+    const currentNominator =
+      nominator === "" ? 0 : parseInt(nominator as string);
+    const currentDenominator =
+      denominator === "" ? 1 : parseInt(denominator as string);
 
     function swap() {
       setNominator(currentDenominator);
@@ -106,6 +106,11 @@ function ChanceSelector(): ReactElement {
 
   return (
     <span id="chance">
+      <div id="indicators">
+        <div id="lives">Lives: </div>
+        <hr />
+        <div id="bullets">Bullets: </div>
+      </div>
       <div id="selector" ref={selectorRef}>
         <input
           id="nominator"

@@ -28,6 +28,10 @@ header {
   transform: translateX(-50%);
 }
 
+#indicators {
+  align-self: center;
+}
+
 #selector {
   width: calc(80% - 7rem);
   align-self: center;
@@ -43,7 +47,7 @@ input {
 }
 
 input::placeholder{
-  color: rgb(184, 184, 184);
+  color: rgb(163, 163, 163);
 }
 
 hr {
