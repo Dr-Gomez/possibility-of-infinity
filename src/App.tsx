@@ -1,17 +1,7 @@
 import { ReactElement, useRef, useState } from "react";
 import "./App.css";
-
-function unlimitedVoid(): void {
-  for (let n = 0; n < Infinity; n += 1) {
-    console.log(Infinity + `${n}`);
-  }
-}
-
-function limitedUnlimitedVoid(n: number): void {
-  for (let i = 0; i < n; i++) {
-    unlimitedVoid();
-  }
-}
+import crash from "./Crash";
+import Barrel from "./Barrel";
 
 function simplify(
   top: number,
@@ -105,31 +95,33 @@ function ChanceSelector(): ReactElement {
   }
 
   return (
-    <span id="chance">
-      <div id="indicators">
-        <div id="lives">Lives: </div>
-        <hr />
-        <div id="bullets">Bullets: </div>
-      </div>
-      <div id="selector" ref={selectorRef}>
-        <input
-          id="nominator"
-          placeholder="0"
-          value={nominator}
-          onChange={handleNominatorChange}
-        />
-        <hr />
-        <input
-          id="denominator"
-          placeholder="1"
-          value={denominator}
-          onChange={handleDenominatorChange}
-        />
-      </div>
-      <button id="simplifier" onClick={swapFraction}>
-        Select Chance
-      </button>
-    </span>
+    <>
+      <span id="chance">
+        <div id="indicators">
+          <div id="lives">Lives: </div>
+          <hr />
+          <div id="blanks">Blanks: </div>
+        </div>
+        <div id="selector" ref={selectorRef}>
+          <input
+            id="nominator"
+            placeholder="0"
+            value={nominator}
+            onChange={handleNominatorChange}
+          />
+          <hr />
+          <input
+            id="denominator"
+            placeholder="1"
+            value={denominator}
+            onChange={handleDenominatorChange}
+          />
+        </div>
+        <button id="simplifier" onClick={swapFraction}>
+          Select Chance
+        </button>
+      </span>
+    </>
   );
 }
 
@@ -142,6 +134,7 @@ function App() {
     <>
       <header>Possibility of Infinity</header>
       <ChanceSelector />
+      {Barrel(1)}
     </>
   );
 }
