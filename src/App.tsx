@@ -134,7 +134,7 @@ function App() {
     <>
       <header>Possibility of Infinity</header>
       <ChanceSelector />
-      {Barrel(1)}
+      {Barrel(10, 7)}
     </>
   );
 }

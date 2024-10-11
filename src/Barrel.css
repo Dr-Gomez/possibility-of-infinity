@@ -1,0 +1,6 @@
+#barrel {
+  position: absolute;
+  left: calc(50% - 1em);
+  top: calc(50%);
+  transform: translate(-50%, -50%);
+}
